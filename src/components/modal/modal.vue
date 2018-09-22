@@ -3,7 +3,7 @@
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click.stop="handleMask"></div>
         </transition>
-        <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
+        <div :class="wrapClasses" :style="wrapStyles" @click.stop="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
@@ -19,8 +19,12 @@
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
-                                <i-button v-if="showCancelButton" type="text" size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
-                                <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
+                                <i-button v-if="showCancelButton" type="text" 
+                                          size="large" :disabled="disableCancelButton"
+                                          @click.native="cancel">{{ localeCancelText }}</i-button>
+                                <i-button type="primary" size="large" :loading="buttonLoading" 
+                                          :disabled="disableOkButton"
+                                          @click.native="ok">{{ localeOkText }}</i-button>
                             </slot>
                         </div>
                     </div>
@@ -125,6 +129,14 @@
             showCancelButton: {
                 type: Boolean,
                 default: true
+            },
+            disableOkButton: {
+                type: Boolean,
+                default: false
+            },
+            disableCancelButton: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
