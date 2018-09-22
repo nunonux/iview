@@ -15,8 +15,8 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
-                                <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" :key="index">
+                                <Icon v-if="item.icon !== ''" :custom="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
                                 <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
