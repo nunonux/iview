@@ -18,7 +18,7 @@
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :custom="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
-                                <template v-else>{{ item.label }}</template>
+                                <template v-else><span class="ivu-tab-text">{{ item.label }}</span></template>
                                 <Icon v-if="showClose(item)" type="ios-close" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>

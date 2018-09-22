@@ -1,7 +1,7 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click="handleMask"></div>
+            <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click.stop="handleMask"></div>
         </transition>
         <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
@@ -19,7 +19,7 @@
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
-                                <i-button type="text" size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
+                                <i-button v-if="showCancelButton" type="text" size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
                                 <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
                             </slot>
                         </div>
@@ -122,6 +122,7 @@
                 type: Number,
                 default: 1000
             },
+            showCancelButton: true
         },
         data () {
             return {
