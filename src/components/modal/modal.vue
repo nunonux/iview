@@ -122,7 +122,10 @@
                 type: Number,
                 default: 1000
             },
-            showCancelButton: true
+            showCancelButton: {
+                type: Boolean,
+                default: true
+            }
         },
         data () {
             return {
