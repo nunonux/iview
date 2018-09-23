@@ -2516,8 +2516,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_2cb4ef9a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__ = __webpack_require__(307);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_2cb4ef9a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_2cb4ef9a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_d64fe5c4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__ = __webpack_require__(307);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_d64fe5c4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_d64fe5c4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -2535,8 +2535,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_2cb4ef9a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_2cb4ef9a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_d64fe5c4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_d64fe5c4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4320,7 +4320,8 @@ exports.default = {
             lastRemoteQuery: '',
             unchangedQuery: true,
             hasExpectedValue: false,
-            preventRemoteCall: false
+            preventRemoteCall: false,
+            typingTimer: null
         };
     },
 
@@ -4770,9 +4771,25 @@ exports.default = {
             this.broadcast('Drop', 'on-update-popper');
         },
         onQueryChange: function onQueryChange(query) {
+            var _this11 = this;
+
             if (query.length > 0 && query !== this.query) this.visible = true;
-            this.query = query;
-            this.unchangedQuery = this.visible;
+
+            if (this.remote) {
+                var seconds = 1000;
+
+                if (this.typingTimer != null) clearTimeout(this.typingTimer);
+
+                if (query.length > 0) this.typingTimer = setTimeout(function () {
+                    (0, _newArrowCheck3.default)(this, _this11);
+
+                    this.query = query;
+                    this.unchangedQuery = this.visible;
+                }.bind(this), seconds);
+            } else {
+                this.query = query;
+                this.unchangedQuery = this.visible;
+            }
         },
         toggleHeaderFocus: function toggleHeaderFocus(_ref10) {
             var type = _ref10.type;
@@ -4793,7 +4810,7 @@ exports.default = {
     },
     watch: {
         value: function value(_value) {
-            var _this11 = this;
+            var _this12 = this;
 
             var getInitialValue = this.getInitialValue,
                 getOptionData = this.getOptionData,
@@ -4804,20 +4821,20 @@ exports.default = {
 
             if (_value === '') this.values = [];else if ((0, _stringify2.default)(_value) !== (0, _stringify2.default)(publicValue)) {
                 this.$nextTick(function () {
-                    (0, _newArrowCheck3.default)(this, _this11);
+                    (0, _newArrowCheck3.default)(this, _this12);
                     return this.values = getInitialValue().map(getOptionData).filter(Boolean);
                 }.bind(this));
             }
         },
         values: function values(now, before) {
-            var _this12 = this;
+            var _this13 = this;
 
             var newValue = (0, _stringify2.default)(now);
             var oldValue = (0, _stringify2.default)(before);
 
             var vModelValue = this.publicValue && this.labelInValue ? this.multiple ? this.publicValue.map(function (_ref11) {
                 var value = _ref11.value;
-                (0, _newArrowCheck3.default)(this, _this12);
+                (0, _newArrowCheck3.default)(this, _this13);
                 return value;
             }.bind(this)) : this.publicValue.value : this.publicValue;
             var shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
@@ -4828,7 +4845,7 @@ exports.default = {
             }
         },
         query: function query(_query) {
-            var _this13 = this;
+            var _this14 = this;
 
             this.$emit('on-query-change', _query);
             var remoteMethod = this.remoteMethod,
@@ -4844,7 +4861,7 @@ exports.default = {
                 this.initialLabel = '';
                 if (promise && promise.then) {
                     promise.then(function (options) {
-                        (0, _newArrowCheck3.default)(this, _this13);
+                        (0, _newArrowCheck3.default)(this, _this14);
 
                         if (options) this.options = options;
                     }.bind(this));
@@ -4873,14 +4890,14 @@ exports.default = {
             }
         },
         focusIndex: function focusIndex(index) {
-            var _this14 = this;
+            var _this15 = this;
 
             if (index < 0 || this.autoComplete) return;
 
             var optionValue = this.flatOptions[index].componentOptions.propsData.value;
             var optionInstance = findChild(this, function (_ref12) {
                 var $options = _ref12.$options;
-                (0, _newArrowCheck3.default)(this, _this14);
+                (0, _newArrowCheck3.default)(this, _this15);
 
                 return $options.componentName === 'select-item' && $options.propsData.value === optionValue;
             }.bind(this));

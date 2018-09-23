@@ -255,6 +255,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                typingTimer: null
             };
         },
         computed: {
@@ -635,9 +636,24 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             onQueryChange(query) {
-                if (query.length > 0 && query !== this.query) this.visible = true;
-                this.query = query;
-                this.unchangedQuery = this.visible;
+                if (query.length > 0 && query !== this.query) 
+                    this.visible = true;
+                    
+                if (this.remote) {
+                    let seconds = 1000;
+
+                    if(this.typingTimer != null)
+                        clearTimeout(this.typingTimer);
+                    
+                    if(query.length > 0)
+                        this.typingTimer = setTimeout(() => {
+                            this.query = query;
+                            this.unchangedQuery = this.visible;
+                        }, seconds);
+                } else {
+                    this.query = query;
+                    this.unchangedQuery = this.visible;
+                }
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
