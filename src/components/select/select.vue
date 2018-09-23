@@ -58,7 +58,7 @@
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul :class="prefixCls + '-dropdown-list'">
+                <ul :class="prefixCls + '-dropdown-list'" :style="setListStyle" ref="listItems">
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
                         :options="selectOptions"
@@ -236,6 +236,16 @@
             }
 
             this.checkUpdateStatus();
+
+            this.$nextTick(()=>{
+                const reference = this.$refs.reference;
+                const listItems = this.$refs.listItems;
+
+                if(reference && listItems) {
+                    console.log(reference.offsetWidth);
+                    listItems.style.width = reference.offsetWidth + 'px';
+                }
+            });
         },
         data () {
 
@@ -668,6 +678,9 @@
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
                     this.hasExpectedValue = true;
                 }
+            },
+            setListStyle() {
+
             }
         },
         watch: {

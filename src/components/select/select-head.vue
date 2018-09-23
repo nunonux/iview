@@ -1,6 +1,6 @@
 <template>
     <div @click="onHeaderClick">
-        <div class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
+        <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple" :key="index">
             <span class="ivu-tag-text">{{ item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
         </div>
@@ -26,7 +26,7 @@
 
             ref="input">
         <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
-        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && !disabled"></Icon>
+        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect"></Icon>
     </div>
 </template>
 <script>
