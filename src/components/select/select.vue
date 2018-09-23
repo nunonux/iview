@@ -222,6 +222,9 @@
             },
             elementId: {
                 type: String
+            },
+            dropdownCssClass: {
+                type: String
             }
         },
         mounted(){
@@ -287,6 +290,7 @@
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
+                    dropdownCssClass
                 };
             },
             selectionCls () {
