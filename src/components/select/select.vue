@@ -244,10 +244,8 @@
                 const reference = this.$refs.reference;
                 const listItems = this.$refs.listItems;
 
-                if(reference && listItems) {
-                    console.log(reference.offsetWidth);
+                if(reference && listItems)
                     listItems.style.width = reference.offsetWidth + 'px';
-                }
             });
         },
         data () {
@@ -286,12 +284,15 @@
                 ];
             },
             dropdownCls () {
-                return {
+                const cssClasses = {
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
-                    dropdownCssClass
                 };
+
+                cssClasses[this.dropdownCssClass] = this.dropdownCssClass;
+
+                return cssClasses;
             },
             selectionCls () {
                 return {

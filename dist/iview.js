@@ -2516,8 +2516,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0367deca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__ = __webpack_require__(307);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0367deca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0367deca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_97760d52_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__ = __webpack_require__(307);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_97760d52_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_97760d52_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -2535,8 +2535,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_select_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0367deca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0367deca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_97760d52_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_97760d52_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_select_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -4312,10 +4312,7 @@ exports.default = {
             var reference = this.$refs.reference;
             var listItems = this.$refs.listItems;
 
-            if (reference && listItems) {
-                console.log(reference.offsetWidth);
-                listItems.style.width = reference.offsetWidth + 'px';
-            }
+            if (reference && listItems) listItems.style.width = reference.offsetWidth + 'px';
         }.bind(this));
     },
     data: function data() {
@@ -4347,14 +4344,18 @@ exports.default = {
             return ['' + prefixCls, (_ref = {}, (0, _defineProperty3.default)(_ref, prefixCls + '-visible', this.visible), (0, _defineProperty3.default)(_ref, prefixCls + '-disabled', this.disabled), (0, _defineProperty3.default)(_ref, prefixCls + '-multiple', this.multiple), (0, _defineProperty3.default)(_ref, prefixCls + '-single', !this.multiple), (0, _defineProperty3.default)(_ref, prefixCls + '-show-clear', this.showCloseIcon), (0, _defineProperty3.default)(_ref, prefixCls + '-' + String(this.size), !!this.size), _ref)];
         },
         dropdownCls: function dropdownCls() {
-            var _ref2;
+            var _cssClasses;
 
-            return _ref2 = {}, (0, _defineProperty3.default)(_ref2, prefixCls + '-dropdown-transfer', this.transfer), (0, _defineProperty3.default)(_ref2, prefixCls + '-multiple', this.multiple && this.transfer), (0, _defineProperty3.default)(_ref2, 'ivu-auto-complete', this.autoComplete), (0, _defineProperty3.default)(_ref2, 'dropdownCssClass', dropdownCssClass), _ref2;
+            var cssClasses = (_cssClasses = {}, (0, _defineProperty3.default)(_cssClasses, prefixCls + '-dropdown-transfer', this.transfer), (0, _defineProperty3.default)(_cssClasses, prefixCls + '-multiple', this.multiple && this.transfer), (0, _defineProperty3.default)(_cssClasses, 'ivu-auto-complete', this.autoComplete), _cssClasses);
+
+            cssClasses[this.dropdownCssClass] = this.dropdownCssClass;
+
+            return cssClasses;
         },
         selectionCls: function selectionCls() {
-            var _ref3;
+            var _ref2;
 
-            return _ref3 = {}, (0, _defineProperty3.default)(_ref3, prefixCls + '-selection', !this.autoComplete), (0, _defineProperty3.default)(_ref3, prefixCls + '-selection-focused', this.isFocused), _ref3;
+            return _ref2 = {}, (0, _defineProperty3.default)(_ref2, prefixCls + '-selection', !this.autoComplete), (0, _defineProperty3.default)(_ref2, prefixCls + '-selection-focused', this.isFocused), _ref2;
         },
         queryStringMatchesSelectedOption: function queryStringMatchesSelectedOption() {
             var _this2 = this;
@@ -4429,8 +4430,8 @@ exports.default = {
             var slotOptions = this.slotOptions || [];
             var optionCounter = -1;
             var currentIndex = this.focusIndex;
-            var selectedValues = this.values.filter(Boolean).map(function (_ref4) {
-                var value = _ref4.value;
+            var selectedValues = this.values.filter(Boolean).map(function (_ref3) {
+                var value = _ref3.value;
                 (0, _newArrowCheck3.default)(this, _this4);
                 return value;
             }.bind(this));
@@ -4475,8 +4476,8 @@ exports.default = {
                         var children = cOptions.children;
 
                         if (this.filterable) {
-                            children = children.filter(function (_ref5) {
-                                var componentOptions = _ref5.componentOptions;
+                            children = children.filter(function (_ref4) {
+                                var componentOptions = _ref4.componentOptions;
                                 (0, _newArrowCheck3.default)(this, _this4);
                                 return this.validateOption(componentOptions);
                             }.bind(this));
@@ -4545,8 +4546,8 @@ exports.default = {
         getOptionData: function getOptionData(value) {
             var _this5 = this;
 
-            var option = this.flatOptions.find(function (_ref6) {
-                var componentOptions = _ref6.componentOptions;
+            var option = this.flatOptions.find(function (_ref5) {
+                var componentOptions = _ref5.componentOptions;
                 (0, _newArrowCheck3.default)(this, _this5);
                 return componentOptions.propsData.value === value;
             }.bind(this));
@@ -4594,12 +4595,12 @@ exports.default = {
                 })
             });
         },
-        validateOption: function validateOption(_ref7) {
+        validateOption: function validateOption(_ref6) {
             var _this7 = this;
 
-            var children = _ref7.children,
-                elm = _ref7.elm,
-                propsData = _ref7.propsData;
+            var children = _ref6.children,
+                elm = _ref6.elm,
+                propsData = _ref6.propsData;
 
             if (this.queryStringMatchesSelectedOption) return true;
 
@@ -4746,14 +4747,14 @@ exports.default = {
             if (this.multiple) {
                 if (this.remote) this.lastRemoteQuery = this.lastRemoteQuery || this.query;else this.lastRemoteQuery = '';
 
-                var valueIsSelected = this.values.find(function (_ref8) {
-                    var value = _ref8.value;
+                var valueIsSelected = this.values.find(function (_ref7) {
+                    var value = _ref7.value;
                     (0, _newArrowCheck3.default)(this, _this10);
                     return value === option.value;
                 }.bind(this));
                 if (valueIsSelected) {
-                    this.values = this.values.filter(function (_ref9) {
-                        var value = _ref9.value;
+                    this.values = this.values.filter(function (_ref8) {
+                        var value = _ref8.value;
                         (0, _newArrowCheck3.default)(this, _this10);
                         return value !== option.value;
                     }.bind(this));
@@ -4806,8 +4807,8 @@ exports.default = {
                 this.unchangedQuery = this.visible;
             }
         },
-        toggleHeaderFocus: function toggleHeaderFocus(_ref10) {
-            var type = _ref10.type;
+        toggleHeaderFocus: function toggleHeaderFocus(_ref9) {
+            var type = _ref9.type;
 
             if (this.disabled) {
                 return;
@@ -4848,8 +4849,8 @@ exports.default = {
             var newValue = (0, _stringify2.default)(now);
             var oldValue = (0, _stringify2.default)(before);
 
-            var vModelValue = this.publicValue && this.labelInValue ? this.multiple ? this.publicValue.map(function (_ref11) {
-                var value = _ref11.value;
+            var vModelValue = this.publicValue && this.labelInValue ? this.multiple ? this.publicValue.map(function (_ref10) {
+                var value = _ref10.value;
                 (0, _newArrowCheck3.default)(this, _this13);
                 return value;
             }.bind(this)) : this.publicValue.value : this.publicValue;
@@ -4911,8 +4912,8 @@ exports.default = {
             if (index < 0 || this.autoComplete) return;
 
             var optionValue = this.flatOptions[index].componentOptions.propsData.value;
-            var optionInstance = findChild(this, function (_ref12) {
-                var $options = _ref12.$options;
+            var optionInstance = findChild(this, function (_ref11) {
+                var $options = _ref11.$options;
                 (0, _newArrowCheck3.default)(this, _this15);
 
                 return $options.componentName === 'select-item' && $options.propsData.value === optionValue;

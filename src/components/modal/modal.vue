@@ -137,6 +137,10 @@
             disableCancelButton: {
                 type: Boolean,
                 default: false
+            },
+            closeOnOk: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -268,8 +272,10 @@
                 if (this.loading) {
                     this.buttonLoading = true;
                 } else {
-                    this.visible = false;
-                    this.$emit('input', false);
+                    if(this.closeOnOk) {
+                        this.visible = false;
+                        this.$emit('input', false);
+                    }
                 }
                 this.$emit('on-ok');
             },
