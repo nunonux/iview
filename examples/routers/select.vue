@@ -87,7 +87,7 @@
                     this.loading3 = true;
                     setTimeout(() => {
                         this.loading3 = false;
-                        this.options3 = this.list.filter(item => item.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                        this.options3 = this.cityList.filter(item => item.name.toLowerCase().indexOf(query.toLowerCase()) > -1);
                     }, 200);
                 } else {
                     this.options3 = [];

@@ -234,7 +234,7 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if ( this.selectOptions.length > 0){
+            if (!this.remote && this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
@@ -250,6 +250,8 @@
                 if(reference && listItems)
                     listItems.style.width = reference.offsetWidth + 'px';
             });
+
+            this.isMounted = 1;
         },
         data () {
 
@@ -269,7 +271,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
-                typingTimer: null
+                typingTimer: null,
             };
         },
         computed: {
@@ -459,6 +461,7 @@
                     initialValue = [];
                 if (remote && !multiple && value) {
                     const data = this.getOptionData(value);
+
                     this.query = data ? data.label : 
                                  value instanceof Object && this.textField ?
                                  value[this.textField] : String(value);
@@ -726,7 +729,13 @@
                 const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
                 this.preventRemoteCall = false; // remove the flag
 
-                if (shouldCallRemoteMethod){
+                if (shouldCallRemoteMethod) {
+
+                    if(this.isMounted === 1) {
+                        this.isMounted += 1;
+                        return;
+                    }
+
                     this.focusIndex = -1;
                     const promise = this.remoteMethod(query);
                     this.initialLabel = '';
@@ -736,6 +745,7 @@
                         });
                     }
                 }
+                
                 if (query !== '' && this.remote) this.lastRemoteQuery = query;
             },
             loading(state){
