@@ -225,13 +225,16 @@
             },
             dropdownCssClass: {
                 type: String
+            },
+            textField: {
+                type: String
             }
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (!this.remote && this.selectOptions.length > 0){
+            if ( this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
@@ -451,11 +454,14 @@
             },
             getInitialValue(){
                 const {multiple, remote, value} = this;
-                let initialValue = Array.isArray(value) ? value : [value];
-                if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
+                let initialValue = Array.isArray(value)? value : [value];
+                if (!multiple && (typeof initialValue[0] === 'undefined' || initialValue[0] === null || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) 
+                    initialValue = [];
                 if (remote && !multiple && value) {
                     const data = this.getOptionData(value);
-                    this.query = data ? data.label : String(value);
+                    this.query = data ? data.label : 
+                                 value instanceof Object && this.textField ?
+                                 value[this.textField] : String(value);
                 }
                 return initialValue.filter((item) => {
                     return Boolean(item) || item === 0;

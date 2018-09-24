@@ -173,7 +173,7 @@
         watch: {
             values ([value]) {
                 if (!this.filterable) return;
-                this.preventRemoteCall = true;
+                    this.preventRemoteCall = true;
                 if (this.multiple){
                     this.query = '';
                     this.preventRemoteCall = false; // this should be after the query change setter above
