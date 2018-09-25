@@ -51,6 +51,7 @@
                         $parent.$emit('on-hover-click');
                     }
                 }
+                this.$emit('click');
                 $parent.$emit('on-click', this.name);
             }
         }

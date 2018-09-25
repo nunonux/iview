@@ -15,7 +15,8 @@
                 @mouseleave.native="handleMouseleave"
                 :data-transfer="transfer"
                 :transfer="transfer"
-                v-transfer-dom><slot name="list"></slot></Drop>
+                v-transfer-dom><slot name="list"
+                :width="dropWidth"></slot></Drop>
         </transition>
     </div>
 </template>
@@ -53,6 +54,14 @@
                 default () {
                     return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
+            },
+            dropWidth: {
+                type: String,
+                default: ''
+            },
+            dropCssClass: {
+                type: String,
+                default: ''
             }
         },
         computed: {
@@ -60,9 +69,10 @@
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
             },
             dropdownCls () {
-                return {
-                    [prefixCls + '-transfer']: this.transfer
-                };
+                return [
+                    this.dropCssClass,
+                    {[prefixCls + '-transfer']: this.transfer}
+                ];
             },
             relClasses () {
                 return [
@@ -159,6 +169,10 @@
             }
         },
         mounted () {
+            const drop = this.$refs.drop;
+            if (drop != null)
+                drop.width = this.dropWidth;
+
             this.$on('on-click', (key) => {
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-click', key);
@@ -186,6 +200,7 @@
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-haschild-click');
             });
+
         }
     };
 </script>
