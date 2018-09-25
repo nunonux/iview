@@ -100,6 +100,11 @@
                     this.$refs.drop.destroy();
                 }
                 this.$emit('on-visible-change', val);
+            },
+            dropWidth(val) {
+                const drop = this.$refs.drop;
+                if (drop != null)
+                    drop.width = val;
             }
         },
         methods: {

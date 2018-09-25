@@ -13,7 +13,7 @@
                 <DropdownItem divided>北京烤鸭</DropdownItem>
             </DropdownMenu>
         </Dropdown>
-        <Dropdown trigger="click" :transfer="true" dropWidth="150" placement="bottom-start">
+        <Dropdown trigger="click" :transfer="true" :dropWidth="dropWidth" placement="bottom-start">
             <a href="javascript:void(0)">
                 下拉菜单
                 <Icon type="ios-arrow-down"></Icon>
@@ -43,6 +43,10 @@
 </template>
 <script>
     export default {
-
+        data() {
+            return {
+                dropWidth: '150'
+            }
+        }
     }
 </script>
