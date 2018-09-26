@@ -209,6 +209,10 @@
             options: {
                 type: Object,
                 default: () => ({})
+            },
+            isoFormat: {
+                type: Boolean,
+                default: true
             }
         },
         data(){
