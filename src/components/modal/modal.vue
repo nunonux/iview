@@ -273,8 +273,7 @@
                     this.buttonLoading = true;
                 } else {
                     if(this.closeOnOk) {
-                        this.visible = false;
-                        this.$emit('input', false);
+                        this.close();
                     }
                 }
                 this.$emit('on-ok');

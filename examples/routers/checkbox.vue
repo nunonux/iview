@@ -3,7 +3,7 @@
         <Checkbox
             :indeterminate="true"
             :value="false"
-            size="large">全选</Checkbox>
+            size="large" >全选</Checkbox>
         <Checkbox
                 :indeterminate="true"
                 :value="false"

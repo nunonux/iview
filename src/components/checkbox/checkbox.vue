@@ -70,6 +70,10 @@
             },
             name: {
                 type: String
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -131,6 +135,9 @@
         },
         methods: {
             change (event) {
+                if(this.readonly)
+                    return;
+
                 if (this.disabled) {
                     return false;
                 }

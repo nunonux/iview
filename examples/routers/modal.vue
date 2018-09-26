@@ -2,6 +2,7 @@
     <div>
         <Button type="primary" @click="modal1 = true">Display dialog box</Button>
         <Modal
+                :closeOnOk="false"
                 v-model="modal1"
                 title="Common Modal dialog box title"
                 @on-ok="ok"
@@ -132,6 +133,7 @@
         methods: {
             ok () {
 //                this.$Message.info('Clicked ok');
+                console.log("on-ok");
             },
             cancel () {
 //                this.$Message.info('Clicked cancel');

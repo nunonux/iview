@@ -4,7 +4,7 @@
         v-click-outside="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
-        <div :class="relClasses" ref="reference" @click="handleClick" @contextmenu.prevent="handleRightClick"><slot></slot></div>
+        <div :class="relClasses" ref="reference" @click.left="handleClick" @contextmenu="handleRightClick"><slot></slot></div>
         <transition name="transition-drop">
             <Drop
                 :class="dropdownCls"
