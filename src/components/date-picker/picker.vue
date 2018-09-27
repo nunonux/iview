@@ -75,8 +75,6 @@
     </div>
 </template>
 <script>
-
-
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import {directive as clickOutside} from 'v-click-outside-x';
@@ -218,7 +216,24 @@
         data(){
             const isRange = this.type.includes('range');
             const emptyArray = isRange ? [null, null] : [null];
-            const initialValue = isEmptyArray((isRange ? this.value : [this.value]) || []) ? emptyArray : this.parseDate(this.value);
+            let tempValue = undefined;
+            let date = undefined;
+
+            if(this.value && this.isoFormat && typeof this.value === 'string') {
+                try {
+                    date = new Date(JSON.parse(this.value));
+                }
+                catch(err) {
+                    date = new Date(this.value);
+                }
+                
+                const isValid = date && date.getTime && !isNaN(date);
+                tempValue = isValid ? date : this.value;
+            }
+            else
+                tempValue = this.value;
+
+            const initialValue = isEmptyArray((isRange ? tempValue : [tempValue]) || []) ? emptyArray : this.parseDate(tempValue);
             const focusedTime = initialValue.map(extractTime);
 
             return {
@@ -253,8 +268,10 @@
                 } else {
                     const isRange = this.type.includes('range');
                     let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+                    val = val[0] instanceof Date && val[0].toString().toUpperCase() === 'Invalid Date'.toUpperCase() ?['']:val
 
                     if (this.type.match(/^time/)) val = val.map(this.formatDate);
+
                     return (isRange || this.multiple) ? val : val[0];
                 }
             },
@@ -694,7 +711,24 @@
                 this.$emit('on-open-change', state);
             },
             value(val) {
-                this.internalValue = this.parseDate(val);
+                if(typeof val === 'string' && this.isoFormat && val != null) {
+                    try{
+                        const date = new Date(JSON.parse(val));
+                        if(date && date.getTime && !isNaN(date))
+                            this.internalValue = this.parseDate(date);
+                        else
+                            [null]
+                    }
+                    catch(err){
+                        const date = new Date(val);
+                        if(date && date.getTime && !isNaN(date))
+                            this.internalValue = this.parseDate(date);
+                        else
+                            [null]
+                    }
+                }
+                else
+                    this.internalValue = this.parseDate(val);
             },
             open (val) {
                 this.visible = val === true;
@@ -706,14 +740,32 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
-                if (shouldEmitInput) this.$emit('input', now); // to update v-model
+                if (shouldEmitInput) 
+                    if(this.isoFormat && now != '') {
+                        this.$emit('input', now.toISOString()); // to update v-model
+                    }
+                    else
+                        this.$emit('input', now)
             },
         },
         mounted () {
             const initialValue = this.value;
             const parsedValue = this.publicVModelValue;
             if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
-                this.$emit('input', this.publicVModelValue); // to update v-model
+                if(this.isoFormat && initialValue) {
+                    let date = undefined;
+                    try {
+                        date = new Date(JSON.parse(this.value));
+                    }
+                    catch(err) {
+                        date = new Date(this.value);
+                    }
+                    
+                    const isValid = date && date.getTime && !isNaN(date);
+                    this.$emit('input', isValid ? JSON.stringify(this.publicVModelValue ): this.publicVModelValue); // to update v-model
+                }
+                else
+                    this.$emit('input', this.publicVModelValue); // to update v-model
             }
             if (this.open !== null) this.visible = this.open;
 

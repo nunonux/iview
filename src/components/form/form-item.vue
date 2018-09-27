@@ -195,8 +195,28 @@
 
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
+                if(descriptor && this.prop && descriptor[this.prop] && descriptor[this.prop][0] 
+                    && descriptor[this.prop][0].type == 'date') 
+                {
+                    const value = this.fieldValue;
 
-                model[this.prop] = this.fieldValue;
+                    if (value && typeof value === 'string') {
+                        let temp = undefined;
+
+                        try {
+                            temp = new Date(JSON.parse(value));
+                        }
+                        catch (err) {
+                            temp = new Date(value);
+                        }
+                        
+                        const tempValue = temp.toString().toUpperCase() == 'Invalid Date'.toUpperCase() ? value : temp;
+                        model[this.prop] = tempValue == '""' ? null : tempValue;
+                    }
+                }
+                else
+                    model[this.prop] = this.fieldValue;
+
 
                 validator.validate(model, { firstFields: true }, errors => {
                     this.validateState = !errors ? 'success' : 'error';
