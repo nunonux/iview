@@ -762,7 +762,7 @@
                     }
                     
                     const isValid = date && date.getTime && !isNaN(date);
-                    this.$emit('input', isValid ? JSON.stringify(this.publicVModelValue ): this.publicVModelValue); // to update v-model
+                    this.$emit('input', isValid ? this.publicVModelValue.toISOString() : this.publicVModelValue); // to update v-model
                 }
                 else
                     this.$emit('input', this.publicVModelValue); // to update v-model

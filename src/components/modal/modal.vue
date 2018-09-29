@@ -16,7 +16,7 @@
                              @mousedown="handleMoveStart"
                              v-if="showHead"
                         ><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
-                        <div :class="[prefixCls + '-body']"><slot></slot></div>
+                        <div :class="[prefixCls + '-body']" :style="bodyStyle"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
                                 <i-button v-if="showCancelButton" type="text" 
@@ -141,13 +141,25 @@
             closeOnOk: {
                 type: Boolean,
                 default: true
+            },
+            closeOnCancel: {
+                type: Boolean,
+                default: true
+            },
+            bodyStyle: {
+                type:[Object, Array],
+                default: ()=> null
+            },
+            headerHide: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 wrapShow: false,
-                showHead: true,
+                showHead: !this.headerHide,
                 buttonLoading: false,
                 visible: this.value,
                 dragData: {
@@ -266,7 +278,12 @@
                 if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.handleMask();
             },
             cancel () {
-                this.close();
+                if (this.closeOnCancel) {
+                    this.close();
+                }
+                else {
+                    this.$emit('on-cancel');
+                }
             },
             ok () {
                 if (this.loading) {
@@ -366,6 +383,14 @@
 
             // ESC close
             document.addEventListener('keydown', this.EscClose);
+
+            this.$on('child-on-ok',() => {
+                this.ok();
+            });
+
+            this.$on('child-on-cancel',() => {
+                this.cancel();
+            });
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.EscClose);

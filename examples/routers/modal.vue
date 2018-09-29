@@ -6,6 +6,7 @@
                 v-model="modal1"
                 title="Common Modal dialog box title"
                 @on-ok="ok"
+                :closeOnCancel="false"
                 @on-cancel="cancel">
             <p>Content of dialog</p>
             <p>Content of dialog</p>
