@@ -140,7 +140,8 @@
         <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
     <!--</div>-->
     <div style="width: 200px">
-        <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
+        <Input v-model="value7" :autosize="true" placeholder="Enter something..."
+               :cleaveOptions="{prefix:'kika', uppercase: true}"></Input>
     </div>
 </template>
 <script>

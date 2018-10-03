@@ -17,6 +17,7 @@
                     :value="visualValue"
                     :name="name"
                     ref="input"
+                    :cleaveOptions="cleaveOptions"
 
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
@@ -211,6 +212,9 @@
             isoFormat: {
                 type: Boolean,
                 default: true
+            },
+            cleaveOptions: {
+                type: [Array, Object],
             }
         },
         data(){

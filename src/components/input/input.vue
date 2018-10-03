@@ -30,7 +30,6 @@
                 @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
             <div :class="[prefixCls + '-group-append', prefixCls + '-search']" v-else-if="search && enterButton" @click="handleSearch">
@@ -70,6 +69,7 @@
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
+    import Cleave from 'cleave.js';
 
     const prefixCls = 'ivu-input';
 
@@ -168,7 +168,17 @@
             enterButton: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            // https://github.com/nosir/cleave.js/blob/master/doc/options.md
+            cleaveOptions: {
+                type: Object,
+                default: () => ({})
+            },
+            // Set this prop to false to emit masked value
+            raw: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
             return {
@@ -179,7 +189,11 @@
                 slotReady: false,
                 textareaStyles: {},
                 showPrefix: false,
-                showSuffix: false
+                showSuffix: false,
+                // cleave.js instance
+                cleave: null,
+                // callback backup
+                onValueChangedFn: null,
             };
         },
         computed: {
@@ -299,12 +313,38 @@
                 if (this.disabled) return false;
                 this.$refs.input.focus();
                 this.$emit('on-search', this.currentValue);
-            }
+            },
+            getOptions(options) {
+                // Preserve original callback
+                this.onValueChangedFn = options.onValueChanged;
+                return Object.assign({}, options, {
+                onValueChanged: this.onValueChanged
+                });
+            },
+            onValueChanged(event) {
+                let value = this.raw ? event.target.rawValue : event.target.value;
+                if (typeof this.onValueChangedFn === 'function')
+                    this.onValueChangedFn.call(this, event)
+
+                if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
+                this.$emit('input', value);
+                this.setCurrentValue(value);
+                this.$emit('on-change', event);
+            },
         },
         watch: {
             value (val) {
-                this.setCurrentValue(val);
-            }
+                this.cleave.setRawValue(val);
+                //this.setCurrentValue(val);
+            },
+            options: {
+                deep: true,
+                handler(newOptions) {
+                    this.cleave.destroy();
+                    this.cleave = new Cleave(this.$refs.input, this.getOptions(newOptions));
+                    this.cleave.setRawValue(this.value)
+                }
+            },
         },
         mounted () {
             if (this.type !== 'textarea') {
@@ -318,6 +358,21 @@
             }
             this.slotReady = true;
             this.resizeTextarea();
-        }
+
+            this.$nextTick(() => {
+                if (this.cleave) 
+                    return;
+                this.cleave = new Cleave(this.$refs.input, this.getOptions(this.cleaveOptions));
+                this.cleave.setRawValue(this.value)
+            });
+        },
+        beforeDestroy() {
+            /* istanbul ignore if */
+            if (!this.cleave) 
+                return;
+            this.cleave.destroy();
+            this.cleave = null;
+            this.onValueChangedFn = null;
+        },
     };
 </script>

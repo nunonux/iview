@@ -255,7 +255,7 @@
         <DatePicker type="year" v-model="model" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
 
         <DatePicker type="date" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>-->
-        <DatePicker type="datetime" v-model="model" format="dd-MM-yyyy HH:mm" :isoFormat="true"  placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker :cleaveOptions="{ delimiters: ['-', '-', ' ', ':'], blocks: [2, 2, 2, 2, 2] }" type="datetime" v-model="model" format="dd-MM-yyyy HH:mm" :isoFormat="true"  placeholder="Select date" style="width: 400px"></DatePicker>
 
         <!--<DatePicker type="daterange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <DatePicker type="datetimerange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
@@ -266,7 +266,7 @@
     export default {
         data() {
             return {
-                model: "sddsdsds"
+                model: "2018-10-03T01:00:00.000Z"
             }
         }
     }

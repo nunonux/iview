@@ -3,8 +3,10 @@
         <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
             <div
                 :class="[prefixCls + '-shortcut']"
-                v-for="shortcut in shortcuts"
-                @click="handleShortcutClick(shortcut)">{{ shortcut.text }}</div>
+                v-for="(shortcut, index) in shortcuts"
+                @click="handleShortcutClick(shortcut)" :key="index">
+                {{ shortcut.text }}
+            </div>
         </div>
         <div :class="[prefixCls + '-body']">
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
