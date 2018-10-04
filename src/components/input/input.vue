@@ -18,7 +18,7 @@
                 :class="inputClasses"
                 :placeholder="placeholder"
                 :disabled="disabled"
-                :maxlength="maxlength"
+                :maxlength="mMaxlength"
                 :readonly="readonly"
                 :name="name"
                 :value="currentValue"
@@ -30,6 +30,7 @@
                 @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
+                @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
             <div :class="[prefixCls + '-group-append', prefixCls + '-search']" v-else-if="search && enterButton" @click="handleSearch">
@@ -50,7 +51,7 @@
             :placeholder="placeholder"
             :disabled="disabled"
             :rows="rows"
-            :maxlength="maxlength"
+            :maxlength="mMaxlength"
             :readonly="readonly"
             :name="name"
             :value="currentValue"
@@ -69,10 +70,7 @@
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
-    import Cleave from 'cleave.js';
-
     const prefixCls = 'ivu-input';
-
     export default {
         name: 'Input',
         mixins: [ Emitter ],
@@ -169,16 +167,14 @@
                 type: [Boolean, String],
                 default: false
             },
-            // https://github.com/nosir/cleave.js/blob/master/doc/options.md
-            cleaveOptions: {
-                type: Object,
-                default: () => ({})
+            prefixText: {
+                type: String,
+                default: ''
             },
-            // Set this prop to false to emit masked value
-            raw: {
+            upperCase: {
                 type: Boolean,
                 default: false
-            },
+            }
         },
         data () {
             return {
@@ -190,10 +186,7 @@
                 textareaStyles: {},
                 showPrefix: false,
                 showSuffix: false,
-                // cleave.js instance
-                cleave: null,
-                // callback backup
-                onValueChangedFn: null,
+                mMaxlength: this.maxlength
             };
         },
         computed: {
@@ -259,7 +252,14 @@
                 }
             },
             handleInput (event) {
-                let value = event.target.value;
+                const valueLength = this.prefixText.length -1;
+                let value =  this.upperCase ? event.target.value.toString().toUpperCase() : event.target.value;
+
+                if(value.length === valueLength) {
+                    this.$refs.input.value = this.prefixText;
+                    return;
+                }
+
                 if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);
                 this.setCurrentValue(value);
@@ -283,10 +283,8 @@
                 if (!autosize || this.type !== 'textarea') {
                     return false;
                 }
-
                 const minRows = autosize.minRows;
                 const maxRows = autosize.maxRows;
-
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
             },
             focus () {
@@ -314,37 +312,19 @@
                 this.$refs.input.focus();
                 this.$emit('on-search', this.currentValue);
             },
-            getOptions(options) {
-                // Preserve original callback
-                this.onValueChangedFn = options.onValueChanged;
-                return Object.assign({}, options, {
-                onValueChanged: this.onValueChanged
-                });
-            },
-            onValueChanged(event) {
-                let value = this.raw ? event.target.rawValue : event.target.value;
-                if (typeof this.onValueChangedFn === 'function')
-                    this.onValueChangedFn.call(this, event)
-
-                if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
-                this.$emit('input', value);
-                this.setCurrentValue(value);
-                this.$emit('on-change', event);
-            },
         },
         watch: {
             value (val) {
-                this.cleave.setRawValue(val);
-                //this.setCurrentValue(val);
+                this.setCurrentValue(this.upperCase ? val.toString().toUpperCase() : val);
             },
-            options: {
-                deep: true,
-                handler(newOptions) {
-                    this.cleave.destroy();
-                    this.cleave = new Cleave(this.$refs.input, this.getOptions(newOptions));
-                    this.cleave.setRawValue(this.value)
-                }
-            },
+            prefixText(newValue, oldValue) {
+                this.currentValue = this.currentValue.replace(oldValue, newValue);
+
+                if (this.maxlength)
+                    this.mMaxlength = this.mMaxlength + this.prefixText.length;
+
+                this.$emit('input', this.upperCase ? this.currentValue.toUpperCase() : this.currentValue );
+            }
         },
         mounted () {
             if (this.type !== 'textarea') {
@@ -359,20 +339,14 @@
             this.slotReady = true;
             this.resizeTextarea();
 
+            if (this.maxlength !== undefined && this.prefixText !== '') {
+                this.mMaxlength = this.mMaxlength + this.prefixText.length;
+            }
+
             this.$nextTick(() => {
-                if (this.cleave) 
-                    return;
-                this.cleave = new Cleave(this.$refs.input, this.getOptions(this.cleaveOptions));
-                this.cleave.setRawValue(this.value)
+
+                this.$refs.input.value = this.upperCase ? this.prefixText.toUpperCase() : this.prefixText;
             });
-        },
-        beforeDestroy() {
-            /* istanbul ignore if */
-            if (!this.cleave) 
-                return;
-            this.cleave.destroy();
-            this.cleave = null;
-            this.onValueChangedFn = null;
-        },
+        }
     };
 </script>

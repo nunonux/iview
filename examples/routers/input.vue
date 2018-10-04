@@ -141,11 +141,16 @@
     <!--</div>-->
     <div style="width: 200px">
         <Input v-model="value7" :autosize="true" placeholder="Enter something..."
-               :cleaveOptions="{prefix:'kika', uppercase: true}"></Input>
+               :prefixText="value13" :maxlength="8" upperCase>
+        </Input>
+
+        <button @click="value13='NT'">click me</button>
     </div>
 </template>
 <script>
+import cleave from '../../src/components/cleave/cleave'
     export default {
+        components: { cleave },
         data () {
             return {
                 value: '',
