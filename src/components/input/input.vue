@@ -68,7 +68,7 @@
 </template>
 <script>
     function startsWith(str, search, pos) {
-        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+        return str ? str.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search : false;
     }
 
     import { oneOf, findComponentUpward } from '../../utils/assist';
@@ -339,9 +339,9 @@
                     this.setCurrentValue(val);
             },
             prefixText(newValue, oldValue) {
-                if (startsWith(this.value.toUpperCase(), this.prefixText.toUpperCase()) === false)
+                if (this.currentValue && this.currentValue.toUpperCase().startsWith(newValue.toUpperCase()))
                     return;
-                    
+
                 this.currentValue = this.currentValue.replace(oldValue, newValue);
 
                 if (this.maxlength)
@@ -369,7 +369,7 @@
             if(this.prefixText && this.value) {
                 let value = this.value;
 
-                if (startsWith(this.value.toUpperCase(), this.prefixText.toUpperCase()) === false)
+                if (this.value && startsWith(this.value.toUpperCase(), this.prefixText.toUpperCase()) === false)
                     value = this.upperCase ? (this.prefixText + this.value).toUpperCase() : 
                                               this.prefixText + this.value;
                                               
