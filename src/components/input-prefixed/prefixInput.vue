@@ -18,7 +18,7 @@
                 :class="inputClasses"
                 :placeholder="placeholder"
                 :disabled="disabled"
-                :maxlength="mMaxlength"
+                :maxlength="maxlength"
                 :readonly="readonly"
                 :name="name"
                 :value="currentValue"
@@ -67,16 +67,12 @@
     </div>
 </template>
 <script>
-    function startsWith(str, search, pos) {
-        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
-    }
-
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
     const prefixCls = 'ivu-input';
     export default {
-        name: 'Input',
+        name: 'PrefixedInput',
         mixins: [ Emitter ],
         props: {
             type: {
@@ -189,8 +185,7 @@
                 slotReady: false,
                 textareaStyles: {},
                 showPrefix: false,
-                showSuffix: false,
-                mMaxlength: this.maxlength
+                showSuffix: false
             };
         },
         computed: {
@@ -326,9 +321,8 @@
         watch: {
             value (val) {
                 if(this.prefixText) {
-                    if(!val) {
+                    if(!val)
                         return;
-                    }
                 
                     if (val && this.upperCase === true)
                         this.setCurrentValue(val.toString().toUpperCase());
@@ -339,9 +333,6 @@
                     this.setCurrentValue(val);
             },
             prefixText(newValue, oldValue) {
-                if (startsWith(this.value.toUpperCase(), this.prefixText.toUpperCase()) === false)
-                    return;
-                    
                 this.currentValue = this.currentValue.replace(oldValue, newValue);
 
                 if (this.maxlength)
@@ -354,6 +345,16 @@
             }
         },
         mounted () {
+            if(this.prefixText && this.value) {
+                let value = this.value;
+
+                if(!this.value.startsWith(this.prefixText))
+                    value = this.upperCase ? (this.prefixText + this.value).toUpperCase() : 
+                                              this.prefixText + this.value;
+                                              
+                this.setCurrentValue(value);
+            }
+
             if (this.type !== 'textarea') {
                 this.prepend = this.$slots.prepend !== undefined;
                 this.append = this.$slots.append !== undefined;
@@ -365,16 +366,6 @@
             }
             this.slotReady = true;
             this.resizeTextarea();
-
-            if(this.prefixText && this.value) {
-                let value = this.value;
-
-                if (startsWith(this.value.toUpperCase(), this.prefixText.toUpperCase()) === false)
-                    value = this.upperCase ? (this.prefixText + this.value).toUpperCase() : 
-                                              this.prefixText + this.value;
-                                              
-                this.setCurrentValue(value);
-            }
         }
     };
 </script>

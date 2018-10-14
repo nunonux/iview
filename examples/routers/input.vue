@@ -140,17 +140,23 @@
         <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
     <!--</div>-->
     <div style="width: 200px">
+        <Form>
+            <FormItem>
+
+            </FormItem>
+        </Form>
         <Input v-model="value7" :autosize="true" placeholder="Enter something..."
-               :prefixText="value13" :maxlength="8" upperCase>
+               prefixText="NTB" :maxlength="8" upperCase>
         </Input>
+
+        <PrefixedInput v-model="value7" :autosize="true" placeholder="PrefixInput - Enter something..."
+                       prefixText="NTB" :maxlength="8" upperCase/>
 
         <button @click="value13='NT'">click me</button>
     </div>
 </template>
 <script>
-import cleave from '../../src/components/cleave/cleave'
     export default {
-        components: { cleave },
         data () {
             return {
                 value: '',
@@ -160,7 +166,7 @@ import cleave from '../../src/components/cleave/cleave'
                 select1: 'http',
                 select2: 'com',
                 select3: 'day',
-                value7: ``
+                value7: 'NTB1234'
             }
         },
         methods: {

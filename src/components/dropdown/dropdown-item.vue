@@ -1,5 +1,5 @@
 <template>
-    <li :class="classes" @click="handleClick"><slot></slot></li>
+    <li :class="classes" @click.stop="handleClick"><slot></slot></li>
 </template>
 <script>
     const prefixCls = 'ivu-dropdown-item';
@@ -36,7 +36,7 @@
             }
         },
         methods: {
-            handleClick () {
+            handleClick (event) {
                 const $parent = findComponentUpward(this, 'Dropdown');
                 const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
 
