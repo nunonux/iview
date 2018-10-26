@@ -255,11 +255,11 @@
         <DatePicker type="year" v-model="model" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
 
         <DatePicker type="date" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>-->
-        <DatePicker :cleaveOptions="{ delimiters: ['-', '-', ' ', ':'], blocks: [2, 2, 2, 2, 2] }" type="datetime" v-model="model" format="dd-MM-yyyy HH:mm" :isoFormat="true"  placeholder="Select date" style="width: 400px"></DatePicker>
+        <!--<DatePicker :cleaveOptions="{ delimiters: ['-', '-', ' ', ':'], blocks: [2, 2, 2, 2, 2] }" type="datetime" v-model="model" format="dd-MM-yyyy HH:mm" :isoFormat="true"  placeholder="Select date" style="width: 400px"></DatePicker>-->
 
-        <!--<DatePicker type="daterange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
-        <DatePicker type="datetimerange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
-        <Time-Picker v-model="model" :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>-->
+        <DatePicker type="datetime" v-model="model" transfer placeholder="Select date" style="width: 400px"></DatePicker>
+        <!--<DatePicker type="datetimerange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>-->
+        <!--<Time-Picker v-model="model" :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>-->
     </div>
 </template>
 <script>

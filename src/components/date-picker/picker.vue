@@ -84,6 +84,7 @@
     import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import Moment from 'moment';
 
     const prefixCls = 'ivu-date-picker';
     const pickerPrefixCls = 'ivu-picker';
@@ -115,6 +116,10 @@
             date.getHours(), date.getMinutes(), date.getSeconds()
         ];
     };
+
+    const ToIso = (date) => {
+        return Moment(date).toISOString(true);
+    }
 
 
     export default {
@@ -744,9 +749,19 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
+
+                let date = undefined;
+                try {
+                    date = new Date(JSON.parse(newValue));
+                }
+                catch(err) {
+                    date = new Date(newValue);
+                }
+                const isValid = date && date.getTime && !isNaN(date);
+
                 if (shouldEmitInput) 
-                    if(this.isoFormat && now != '') {
-                        this.$emit('input', now.toISOString()); // to update v-model
+                    if(this.isoFormat && now != '' && isValid) {
+                        this.$emit('input', ToIso(date)); // to update v-model
                     }
                     else
                         this.$emit('input', now)
@@ -766,7 +781,8 @@
                     }
                     
                     const isValid = date && date.getTime && !isNaN(date);
-                    this.$emit('input', isValid ? this.publicVModelValue.toISOString() : this.publicVModelValue); // to update v-model
+
+                    this.$emit('input', isValid ? ToIso(date) : this.publicVModelValue); // to update v-model
                 }
                 else
                     this.$emit('input', this.publicVModelValue); // to update v-model
