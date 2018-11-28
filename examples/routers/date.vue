@@ -257,16 +257,21 @@
         <DatePicker type="date" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>-->
         <!--<DatePicker :cleaveOptions="{ delimiters: ['-', '-', ' ', ':'], blocks: [2, 2, 2, 2, 2] }" type="datetime" v-model="model" format="dd-MM-yyyy HH:mm" :isoFormat="true"  placeholder="Select date" style="width: 400px"></DatePicker>-->
 
-        <DatePicker type="datetime" v-model="model" transfer placeholder="Select date" style="width: 400px"></DatePicker>
+        <!--<DatePicker type="datetime" v-model="model" transfer placeholder="Select date" style="width: 400px"></DatePicker>-->
         <!--<DatePicker type="datetimerange" v-model="model" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>-->
-        <!--<Time-Picker v-model="model" :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>-->
+        <Time-Picker v-model="model" format="HH:mm"></Time-Picker>
+         <TimePicker format="HH:mm" 
+                     placeholder="Select time"
+                     transfer
+                     :value="flightToEdit.ScheduledTime"
+                     @input="OnTimeInput('ScheduledTime', $event)"/>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
-                model: "2018-10-03T01:00:00.000Z"
+                model: "2018-10-31T13:00:00"
             }
         }
     }

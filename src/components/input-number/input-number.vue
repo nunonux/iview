@@ -290,6 +290,8 @@
                     e.preventDefault();
                     this.down(e);
                 }
+                else if (e.keyCode === 13)
+                    e.$emit('enter');
             },
             change (event) {
 

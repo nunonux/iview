@@ -117,8 +117,11 @@
         ];
     };
 
-    const ToIso = (date) => {
-        return Moment(date).toISOString(true);
+    const ToIso = (date, flag) => {
+        if (flag)
+            return Moment(date).toISOString(true);
+        else
+            return Moment(date).format('YYYY-MM-DDTHH:mm:ss');
     }
 
 
@@ -217,6 +220,10 @@
             isoFormat: {
                 type: Boolean,
                 default: true
+            },
+            IsoFormatWithTimeZone: {
+                type: Boolean,
+                default: false
             },
             cleaveOptions: {
                 type: [Array, Object],
@@ -761,7 +768,7 @@
 
                 if (shouldEmitInput) 
                     if(this.isoFormat && now != '' && isValid) {
-                        this.$emit('input', ToIso(date)); // to update v-model
+                        this.$emit('input', ToIso(date, this.IsoFormatWithTimeZone)); // to update v-model
                     }
                     else
                         this.$emit('input', now)
@@ -782,7 +789,7 @@
                     
                     const isValid = date && date.getTime && !isNaN(date);
 
-                    this.$emit('input', isValid ? ToIso(date) : this.publicVModelValue); // to update v-model
+                    this.$emit('input', isValid ? ToIso(date, this.IsoFormatWithTimeZone) : this.publicVModelValue); // to update v-model
                 }
                 else
                     this.$emit('input', this.publicVModelValue); // to update v-model
