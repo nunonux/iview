@@ -291,7 +291,7 @@
                     this.down(e);
                 }
                 else if (e.keyCode === 13)
-                    e.$emit('enter');
+                    this.$emit('enter');
             },
             change (event) {
 
